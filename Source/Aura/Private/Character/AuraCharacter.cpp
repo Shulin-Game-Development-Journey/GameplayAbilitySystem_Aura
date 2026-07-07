@@ -4,6 +4,7 @@
 #include "Character/AuraCharacter.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/AuraPlayerState.h"
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -16,4 +17,33 @@ AAuraCharacter::AAuraCharacter()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 	
+}
+
+void AAuraCharacter::PossessedBy(AController* NewController)  //服务器上，当 Controller 控制这个角色以后，初始化 GAS。
+{
+	Super::PossessedBy(NewController);
+	
+	//Init ability actor info for the server
+	InitAbilityActorInfo();
+	
+}
+
+void AAuraCharacter::OnRep_PlayerState()      //客户端收到 PlayerState 同步以后，初始化 GAS。
+{
+	Super::OnRep_PlayerState();
+	
+	//Init ability actor info for the client
+	InitAbilityActorInfo();
+}
+
+void AAuraCharacter::InitAbilityActorInfo()    //写函数InitAbilityActorInfo
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();  //1.创建变量AuraPlayerState
+	                                                                     //2.变量类型：AAuraPlayerState Object Reference 
+	                                                                       //从当前 Character 身上拿 PlayerState
+	check(AuraPlayerState);                        //检查有没有拿到
+	//把 AbilitySystemComponent（ASC）拿出来，然后调用它的 InitAbilityActorInfo()，告诉 ASC 它属于谁、控制谁。
+	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
+	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
+	AttributeSet = AuraPlayerState->GetAttributeSet(); //请仔细理解attribute和ABS在体系的不同赋值程序
 }
