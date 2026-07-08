@@ -46,4 +46,4 @@ void AAuraCharacter::InitAbilityActorInfo()    //写函数InitAbilityActorInfo
 	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet(); //请仔细理解attribute和ABS在体系的不同赋值程序
-}
+} 

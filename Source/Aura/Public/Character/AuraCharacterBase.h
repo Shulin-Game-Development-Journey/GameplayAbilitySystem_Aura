@@ -26,7 +26,7 @@ protected:
 	TObjectPtr<USkeletalMeshComponent> Weapon;  //让角色拥有一个武器组件变量
 	
 	UPROPERTY()
-	TObjectPtr <UAuraAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr <UAbilitySystemComponent> AbilitySystemComponent;
 	
 	UPROPERTY()
 	TObjectPtr <UAttributeSet> AttributeSet;
