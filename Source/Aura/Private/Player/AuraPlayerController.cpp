@@ -92,7 +92,10 @@ void AAuraPlayerController::BeginPlay()
 	check (AuraContext);
 	
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer :: GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check (Subsystem);                 //检查有没有拿到 Subsystem。上一步是去拿 这一步相当于is valid?
+	if (Subsystem)
+	{
+		Subsystem->AddMappingContext(AuraContext, 0);
+	}
 	Subsystem->AddMappingContext(AuraContext, 0);  //把 AuraContext 这个 Input Mapping 加进去
 	
 	bShowMouseCursor = true;
