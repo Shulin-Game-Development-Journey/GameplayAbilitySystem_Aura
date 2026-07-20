@@ -33,6 +33,6 @@ private:
 	void Move (const struct FInputActionValue& InputActionValue);
 	
 	void CursorTrace();
-	TScriptInterface<IEnemyInterface> LastActor;  //上一帧鼠标指到的敌人
-	TScriptInterface<IEnemyInterface> ThisActor;  //当前鼠标指到的敌人
+	IEnemyInterface* LastActor;  //上一帧鼠标指到的敌人
+	IEnemyInterface* ThisActor;  //当前鼠标指到的敌人
 };

@@ -2,6 +2,9 @@
 
 
 #include "Character/AuraCharacter.h"
+
+#include "AbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "UI/HUB/AuraHUD.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/AuraPlayerController.h"
@@ -37,6 +40,13 @@ void AAuraCharacter::OnRep_PlayerState()      //客户端收到 PlayerState 同�
 	InitAbilityActorInfo();
 }
 
+int32 AAuraCharacter::GetPlayerLevel()
+{
+	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState); 
+	return AuraPlayerState->GetPlayerLevel();
+}
+
 void AAuraCharacter::InitAbilityActorInfo()    //写函数InitAbilityActorInfo
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();  //1.创建变量AuraPlayerState
@@ -45,6 +55,7 @@ void AAuraCharacter::InitAbilityActorInfo()    //写函数InitAbilityActorInfo
 	check(AuraPlayerState);                        //检查有没有拿到
 	//把 AbilitySystemComponent（ASC）拿出来，然后调用它的 InitAbilityActorInfo()，告诉 ASC 它属于谁、控制谁。
 	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
+	Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet(); //请仔细理解attribute和ABS在体系的不同赋值程序
 	
@@ -55,5 +66,5 @@ void AAuraCharacter::InitAbilityActorInfo()    //写函数InitAbilityActorInfo
 			AuraHUD-> InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
-	 
+	 InitializeDefaultAttributes();
 } 

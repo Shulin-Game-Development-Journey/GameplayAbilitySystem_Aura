@@ -28,7 +28,7 @@ void AAuraPlayerController::CursorTrace()
 	if (!CursorHit.bBlockingHit) return;
 	
 	LastActor = ThisActor;
-	ThisActor = CursorHit.GetActor();
+	ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());
 	
 	/**
  * 鼠标射线检测（Cursor Trace），共有以下几种情况：
@@ -96,7 +96,6 @@ void AAuraPlayerController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(AuraContext, 0);
 	}
-	Subsystem->AddMappingContext(AuraContext, 0);  //把 AuraContext 这个 Input Mapping 加进去
 	
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Hand;       //使用默认鼠标样式。Default 就是默认鼠标样子
